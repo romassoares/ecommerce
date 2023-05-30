@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Email;
+use App\Mail\EmailConfirm;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Repository\PerfilRepository;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -31,15 +33,16 @@ class RegisterController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
-
+    protected $perfilRepository;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(PerfilRepository $perfilRepository)
     {
         $this->middleware('guest');
+        $this->perfilRepository = $perfilRepository;
     }
 
     /**
@@ -66,11 +69,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'type' => $data['type'],
         ]);
+
+        if ($user->type == "com")
+            Mail::send(new EmailConfirm($user));
+
+        if ($user->type == 'ven')
+            $this->perfilRepository->setStatusToPending($user);
+
+        return $user;
     }
 }

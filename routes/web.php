@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfilesControlle;
 use App\Http\Controllers\UserController;
 use App\Mail\EmailConfirm;
 use Illuminate\Support\Facades\Auth;
@@ -24,3 +25,12 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('confirm-email', [UserController::class, 'confirm_email']);
+
+Route::prefix('/profile')->group(function () {
+    Route::get('/index', [ProfilesControlle::class, 'index'])->name('profile.index');
+    Route::post('/store', [ProfilesControlle::class, 'store'])->name('profile.store');
+});
+
+// categorias
+
+// produtos

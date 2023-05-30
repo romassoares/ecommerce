@@ -15,10 +15,11 @@ class CreateComPerfilsTable extends Migration
     {
         Schema::create('com_perfils', function (Blueprint $table) {
             $table->id();
-            $table->string('cpf', 11);
-            $table->date('data_nasc');
-            $table->string('state');
-            $table->string('city');
+            $table->foreignId('user_id');
+            $table->string('cpf', 11)->nullable();
+            $table->date('data_nasc')->nullable();
+            $table->string('state')->nullable();
+            $table->string('city')->nullable();
             $table->decimal('credit', 10, 2);
             $table->timestamps();
         });

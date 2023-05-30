@@ -42,4 +42,21 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getType()
+    {
+        switch ($this->type) {
+            case 'com':
+                return 'Comprador';
+                break;
+
+            case 'ven':
+                return 'Comprador';
+                break;
+
+            default:
+                return 'Administrador';
+                break;
+        }
+    }
 }
