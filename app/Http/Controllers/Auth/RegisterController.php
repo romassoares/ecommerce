@@ -80,7 +80,7 @@ class RegisterController extends Controller
             Mail::send(new EmailConfirm($user));
 
         if ($user->type == 'ven')
-            $this->perfilRepository->setStatusToPending($user);
+            $this->perfilRepository->setStatusToPendingAndAddProducts($user);
 
         return $user;
     }
