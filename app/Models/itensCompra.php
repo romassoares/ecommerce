@@ -9,7 +9,7 @@ class itensCompra extends Model
 {
     use HasFactory;
     protected $table = 'itens_compra';
-    protected $fillable = ['user_id', 'product_id'];
+    protected $fillable = ['user_id', 'product_id', 'compra_id'];
 
     public function product()
     {

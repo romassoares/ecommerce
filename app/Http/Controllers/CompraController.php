@@ -51,14 +51,16 @@ class CompraController extends Controller
     public function addItem($product_id)
     {
         $if_compra_aberta = $this->compraRepository->if_compra_aberta();
-        // dd($if_compra_aberta);
-        if ($if_compra_aberta) {
-            // $if_exists_product = $this->compraRepository->findProduct($product_id);
+
+        if (isset($if_compra_aberta)) {
+
             $this->compraRepository->addItem($product_id, $if_compra_aberta);
             return redirect()->back();
         } else {
-            $this->compraRepository->createCompra();
-            $this->addItem($product_id);
+            $response = $this->compraRepository->createCompra();
+
+            $this->compraRepository->addItem($product_id, $response);
+            return redirect()->back();
         }
     }
 

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Compra extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'preco'];
+    protected $fillable = ['user_id', 'preco', 'compra_id'];
 
     public function itens()
     {

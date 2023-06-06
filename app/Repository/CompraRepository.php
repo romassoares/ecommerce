@@ -19,19 +19,18 @@ class CompraRepository
 
     public function createCompra()
     {
-        $result = $this->compra->insert([
+        $result = $this->compra->create([
             'user_id' => Auth::id(),
             'status' => 'aberta'
         ]);
-        dd($result);
+
         return $result;
     }
 
     public function addItem($product, $compra)
     {
-        dd($compra);
         $result = $this->itens->create([
-            'user_id' => Auth::id(),
+            'user_id' => $compra->user_id,
             'product_id' => $product,
             'compra_id' => $compra->id
         ]);
@@ -48,14 +47,21 @@ class CompraRepository
     public function if_compra_aberta()
     {
         $result = $this->compra
+            ->where('user_id', Auth::id())
             ->where('status', 'aberta')
-            ->get();
+            ->first();
+
         return $result;
     }
 
     public function itens()
     {
-        return $this->itens->get();
+        $compra = $this->compra
+            ->where('user_id', Auth::id())
+            ->where('status', 'aberta')->first();
+        $itens = $this->itens->where('compra_id', $compra->id)->get();
+
+        return $itens;
     }
 
     public function valorItensCarrinho()
@@ -72,7 +78,8 @@ class CompraRepository
     {
         $result = $this->compra->insert([
             'user_id' => $user_id,
-            'preco' => $valor
+            'preco' => $valor,
+            'status' => 'finalizada'
         ]);
         return $result;
     }
