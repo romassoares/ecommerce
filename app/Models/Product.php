@@ -8,10 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
-    protected $fillable = ['nome', 'descricao', 'preco', 'categoria'];
+    protected $fillable = ['nome', 'descricao', 'preco', 'categoria', 'user_id'];
+
+    public function getPreco()
+    {
+        return 'R$' . number_format($this->preco, 2, ',', '.');
+    }
 
     public function imgs()
     {
         return $this->hasMany(ImgProduct::class);
+    }
+
+    public function item()
+    {
+        return $this->hasOne(itensCompra::class);
     }
 }

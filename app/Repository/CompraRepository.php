@@ -1,0 +1,79 @@
+<?php
+
+namespace App\Repository;
+
+use App\Models\Compra;
+use App\Models\itensCompra;
+use Illuminate\Support\Facades\Auth;
+
+class CompraRepository
+{
+    private $compra;
+    private $itens;
+
+    public function __construct(Compra $compra, itensCompra $itens)
+    {
+        $this->compra = $compra;
+        $this->itens = $itens;
+    }
+
+    public function createCompra()
+    {
+        $result = $this->compra->insert([
+            'user_id' => Auth::id(),
+            'status' => 'aberta'
+        ]);
+        dd($result);
+        return $result;
+    }
+
+    public function addItem($product, $compra)
+    {
+        dd($compra);
+        $result = $this->itens->create([
+            'user_id' => Auth::id(),
+            'product_id' => $product,
+            'compra_id' => $compra->id
+        ]);
+        return $result;
+    }
+
+    public function findProduct($product_id)
+    {
+        $result = $this->itens
+            ->where('product_id', $product_id)->first();
+        return $result;
+    }
+
+    public function if_compra_aberta()
+    {
+        $result = $this->compra
+            ->where('status', 'aberta')
+            ->get();
+        return $result;
+    }
+
+    public function itens()
+    {
+        return $this->itens->get();
+    }
+
+    public function valorItensCarrinho()
+    {
+        $result = $this->itens
+            ->join('products', 'itens_compra.product_id', 'products.id')
+            ->selectRaw('SUM(products.preco) as total')
+            ->get();
+
+        return $result->first()->total;
+    }
+
+    public function finalizarCompra($valor, $user_id)
+    {
+        $result = $this->compra->insert([
+            'user_id' => $user_id,
+            'preco' => $valor
+        ]);
+        return $result;
+    }
+}

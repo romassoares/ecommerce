@@ -1,25 +1,17 @@
 @extends('adminlte::page')
-
 @section('content_header')
-<h1>Dashboard</h1>
+<h1>Produtos</h1>
 @stop
-
 @section('content')
+
 <div class="container-fluid">
     <div class="card">
-        <div class="card-header  bg-dark">
-            <div class="d-flex justify-content-between">
-                <h2>Produtos</h2>
-                <a class="btn btn-success" href="{{route('product.create')}}"><i class="fas fa-plus"></i></a>
+        <div class="card-header bg-dark">
+            <div class="row">
+                Lista dos produtos cadastrados
             </div>
         </div>
         <div class="card-body">
-            @if (isset($user->vendedor))
-            @can('block_if_pending_or_rejected',$user->vendedor)
-            <p>Sua conta está em análise. </p>
-            @endcan
-            @endif
-            @can('view_products', $user)
             <div class="row">
                 <div class="col-md-3">
                     <h2>Filtros</h2>
@@ -52,42 +44,44 @@
                         </div>
                     </form>
                     <div class="col mt-3">
-                        <a href="{{route('home')}}">Limpar filtros</a>
+                        <a href="{{route('product.index')}}">Limpar filtros</a>
                     </div>
                 </div>
                 <div class="col-md-9">
-                    <div class="flex-row">
-                        @foreach ($products as $key => $product)
-                        <a class="text-dark" href="{{route('product.show',['product_id'=>$product->id])}}">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="imgThumbmail">
-                                        <img style="width:100%;" src="{{isset($product->imgs[0]->url)}}" alt="{{$product->nome}}" class="img-thumbnail">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nome</th>
+                                <th>Categoria</th>
+                                <th>Preço</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($products as $key => $product)
+                            <tr>
+                                <td>{{$key}}</td>
+                                <td>{{$product->nome}}</td>
+                                <td>{{$product->categoria}}</td>
+                                <td>{{$product->getpreco()}}</td>
+                                <td>
+                                    <div class="col d-flex justify-content-around">
+                                        <a href="{{route('product.show',['product_id'=>$product->id])}}"><i class="fas fa-eye"></i></a>
+                                        <a class="text-warning" href="{{route('product.edit',['product_id'=>$product->id])}}"><i class="fas fa-edit"></i></a>
+
                                     </div>
-                                </div>
-                                <div class="card-body">
-                                    @can('if_user_admin',$user)
-                                    <p><strong>Vendedor: </strong>{{$user->name}}</p>
-                                    @endcan
-                                    <p>{{$product->nome}}</p>
-                                    <p>{{$product->descricao}}</p>
-                                    <p>{{$product->getPreco()}}</p>
-                                </div>
-                                <div class="card-footer">
-                                    <a href="{{route('compra.addItem',['product_id'=>$product->id])}}"><i class="fas fa-plus"></i></a>
-                                </div>
-                            </div>
-                        </a>
-                        @endforeach
-                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    {{$products->links()}}
                 </div>
             </div>
-            @endcan
         </div>
         <div class="card-footer">
-            @can('view_products', $user)
-            {{$products->links()}}
-            @endcan
+
         </div>
     </div>
 </div>

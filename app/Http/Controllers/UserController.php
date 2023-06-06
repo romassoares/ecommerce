@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comprador;
 use App\Models\User;
 use App\Repository\PerfilRepository;
 use App\Service\PerfilService;

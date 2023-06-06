@@ -15,9 +15,10 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id');
             $table->string('nome');
             $table->text('descricao');
-            $table->string('preco');
+            $table->float('preco', 10, 2);
             $table->string('categoria');
             $table->timestamps();
         });

@@ -5,14 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ImgProduct extends Model
+class itensCompra extends Model
 {
     use HasFactory;
-    protected $table = 'img_products';
-    protected $fillable = ['product_id', 'url'];
+    protected $table = 'itens_compra';
+    protected $fillable = ['user_id', 'product_id'];
 
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function compra()
+    {
+        return $this->belongsTo(Compra::class);
     }
 }

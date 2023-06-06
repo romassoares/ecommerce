@@ -23,25 +23,6 @@ class PerfilRepository
             'status' => "pen"
         ]);
 
-        $productsApi = Http::get('https://dummyjson.com/products')->json();
-        foreach ($productsApi['products'] as $product) {
-            $prodId = DB::table('products')->insertGetId([
-                'nome' => $product['title'],
-                'descricao' => $product['description'],
-                'preco' => $product['price'],
-                'categoria' => $product['category'],
-            ]);
-
-            $imgs = $product['images'];
-
-            foreach ($imgs as $img) {
-                DB::table('img_products')->insert([
-                    'url' => $img,
-                    'product_id' => $prodId,
-                ]);
-            }
-        }
-
         return $result ? true : false;
     }
 }

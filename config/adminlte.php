@@ -291,10 +291,29 @@ return [
 
     'menu' => [
         [
-            'text'        => 'pages',
-            'url'         => 'profile/index',
-            'icon'        => 'far fa-fw fa-file',
+            'text' => 'Vendedores',
+            'url' => 'vendedor/index',
+            // 'icon' => 'far fa-fw fa-user'
         ],
+        [
+            'text' => 'Compradores',
+            'url' => 'comprador/index',
+            // 'icon' => 'far fa-fw fa-users'
+        ],
+        [
+            'text' => 'Produtos',
+            'url' => 'produtos/index',
+            // 'icon' => 'far fa-fw fa-users'
+        ],
+        [
+            'text' => 'Compras',
+            'url' => 'compra/index',
+            // 'icon' => 'far fa-fw fa-users'
+        ],
+        [
+            'text' => 'Meu Carrinho',
+            'url' => 'compra/carrinho',
+        ]
 
     ],
 

@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
@@ -28,9 +26,8 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
-
+        $categorias = DB::table('products')->select('categoria')->distinct()->get();
         $products = Product::paginate(10);
-
-        return view('home', ['user' => $user, 'products' => $products]);
+        return view('home', ['user' => $user, 'products' => $products, 'categorias' => $categorias]);
     }
 }
