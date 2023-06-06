@@ -78,8 +78,8 @@ class CompraController extends Controller
             'user_id' => $user_id,
             'credit' => $valorItens
         ]);
-
         $comprador = Comprador::where('user_id', $user_id)->first();
+
         $comprador->credit -= $valorItens;
 
         $comprador->save();

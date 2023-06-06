@@ -59,9 +59,13 @@ class CompraRepository
         $compra = $this->compra
             ->where('user_id', Auth::id())
             ->where('status', 'aberta')->first();
-        $itens = $this->itens->where('compra_id', $compra->id)->get();
+        if (isset($compra)) {
+            $itens = $this->itens->where('compra_id', $compra->id)->get();
 
-        return $itens;
+            return $itens;
+        } else {
+            return $itens = [];
+        }
     }
 
     public function valorItensCarrinho()
@@ -76,11 +80,10 @@ class CompraRepository
 
     public function finalizarCompra($valor, $user_id)
     {
-        $result = $this->compra->insert([
-            'user_id' => $user_id,
-            'preco' => $valor,
-            'status' => 'finalizada'
-        ]);
-        return $result;
+        $compra = $this->if_compra_aberta();
+        $compra->status = 'finalizada';
+        $compra->preco = $valor;
+        $compra->save();
+        return $compra;
     }
 }
