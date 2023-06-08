@@ -9,15 +9,6 @@ class UserPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Create a new policy instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
     public function view_products(User $user)
     {
         return isset($user->vendedor->status) && $user->vendedor->status === 'apr' || $user->type === 'com' || $user->type === 'adm';
@@ -31,5 +22,10 @@ class UserPolicy
     public function user_com(User $user)
     {
         return $user->type === 'com';
+    }
+
+    public function user_ven(User $user)
+    {
+        return $user->type === 'ven';
     }
 }

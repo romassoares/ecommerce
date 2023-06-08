@@ -23,7 +23,12 @@ class CompraController extends Controller
     public function index()
     {
         $categorias = DB::table('products')->select('categoria')->distinct()->get();
-        $compras = Compra::paginate(10);
+
+        if (Auth::user()->type === 'ven' || Auth::user()->type === 'adm') {
+            $compras = Compra::paginate(10);
+        } else {
+            $compras = Compra::where('user_id', Auth::id())->paginate(10);
+        }
         return view('compra.index', ['compras' => $compras, 'categorias' => $categorias]);
     }
 
@@ -73,12 +78,11 @@ class CompraController extends Controller
     public function finalizar($user_id)
     {
         $valorItens = $this->compraRepository->valorItensCarrinho();
-
         $vendedor = Vendedor::insert([
             'user_id' => $user_id,
             'credit' => $valorItens
         ]);
-        $comprador = Comprador::where('user_id', $user_id)->first();
+        $comprador = Comprador::where('user_id', Auth::id())->first();
 
         $comprador->credit -= $valorItens;
 

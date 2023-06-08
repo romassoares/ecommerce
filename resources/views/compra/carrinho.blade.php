@@ -11,7 +11,7 @@
             <h2>itens adicionado</h2>
         </div>
         <div class="card-body">
-            <table>
+            <table class="table">
                 <thead>
                     <tr>
                         <th>#</th>

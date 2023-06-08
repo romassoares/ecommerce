@@ -32,5 +32,24 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+
+        Gate::define('user_ven_and_adm', function (User $user) {
+            return $user->type === 'ven' || $user->type === 'adm';
+        });
+
+        Gate::define('user_com_and_ven', function (User $user) {
+            return $user->type === 'com' || $user->type === 'ven';
+        });
+
+        Gate::define('user_com_menu', function (User $user) {
+            return $user->type === 'com';
+        });
+
+        Gate::define('user_adm_menu', function (User $user) {
+            return $user->type === 'adm';
+        });
+        Gate::define('user_all', function (User $user) {
+            return $user->type === 'adm' || $user->type === 'ven' || $user->type === 'com';
+        });
     }
 }

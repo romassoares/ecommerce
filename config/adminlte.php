@@ -294,25 +294,30 @@ return [
             'text' => 'Vendedores',
             'url' => 'vendedor/index',
             // 'icon' => 'far fa-fw fa-user'
+            'can' => 'user_adm_menu'
         ],
         [
             'text' => 'Compradores',
             'url' => 'comprador/index',
             // 'icon' => 'far fa-fw fa-users'
+            'can' => 'user_adm_menu'
         ],
         [
             'text' => 'Produtos',
             'url' => 'produtos/index',
             // 'icon' => 'far fa-fw fa-users'
+            'can' => 'user_ven_and_adm'
         ],
         [
             'text' => 'Compras',
             'url' => 'compra/index',
             // 'icon' => 'far fa-fw fa-users'
+            'can' => 'user_all'
         ],
         [
             'text' => 'Meu Carrinho',
             'url' => 'compra/carrinho',
+            'can' => 'user_com_menu'
         ]
 
     ],

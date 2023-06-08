@@ -1,13 +1,13 @@
 @extends('adminlte::page')
 
 @section('content_header')
-<h1>Carrinho de compras</h1>
+<h1>Compras</h1>
 @stop
 @section('content')
 <div class="container-fluid">
     <div class="card">
         <div class="card-header bg-dark">
-            <h2>carrinho</h2>
+            <h2>Compras</h2>
         </div>
         <div class="card-body">
             <div class="row">
@@ -46,7 +46,24 @@
                     </div>
                 </div>
                 <div class="col-md-9">
-                    campos
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Produto</th>
+                                <th>R$</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($compras as $key => $item)
+                            <tr>
+                                <td>{{$key++}}</td>
+                                <td>{{$item->itens->product->nome}}</td>
+                                <td>{{$item->itens->product->getPreco()}}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

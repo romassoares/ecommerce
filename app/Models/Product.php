@@ -22,6 +22,6 @@ class Product extends Model
 
     public function item()
     {
-        return $this->hasOne(itensCompra::class);
+        return $this->belongsTo(itensCompra::class);
     }
 }
