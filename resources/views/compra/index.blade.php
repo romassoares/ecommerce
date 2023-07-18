@@ -50,7 +50,8 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Produto</th>
+                                <th>Usuário</th>
+                                <th>Status</th>
                                 <th>R$</th>
                             </tr>
                         </thead>
@@ -58,8 +59,9 @@
                             @foreach ($compras as $key => $item)
                             <tr>
                                 <td>{{$key++}}</td>
-                                <td>{{$item->itens->product->nome}}</td>
-                                <td>{{$item->itens->product->getPreco()}}</td>
+                                <td>{{$item->user->name}}</td>
+                                <td>{{$item->status}}</td>
+                                <td>{{$item->getPreco()}}</td>
                             </tr>
                             @endforeach
                         </tbody>

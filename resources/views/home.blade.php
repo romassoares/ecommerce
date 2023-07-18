@@ -10,7 +10,7 @@
         <div class="card-header  bg-dark">
             <div class="d-flex justify-content-between">
                 <h2>Produtos</h2>
-                @can('user_com')
+                @can('user_ven',$user)
                 <a class="btn btn-success" href="{{route('product.create')}}"><i class="fas fa-plus"></i></a>
                 @endcan
             </div>
@@ -76,7 +76,7 @@
                                     <p>{{$product->getPreco()}}</p>
                                 </div>
                                 <div class="card-footer">
-                                    @can('user_com')
+                                    @can('user_com',$user)
                                     <a href="{{route('compra.addItem',['product_id'=>$product->id])}}"><i class="fas fa-plus"></i></a>
                                     @endcan
                                 </div>

@@ -65,9 +65,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(Comprador::class);
     }
-    
+
     public function vendedor(): HasOne
     {
         return $this->hasOne(Vendedor::class);
+    }
+
+    public function compra()
+    {
+        return $this->hasOne(Compra::class);
     }
 }

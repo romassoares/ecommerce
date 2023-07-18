@@ -56,9 +56,11 @@ class CompraRepository
 
     public function itens()
     {
+        dd('sdf');
         $compra = $this->compra
             ->where('user_id', Auth::id())
             ->where('status', 'aberta')->first();
+        dd($compra);
         if (isset($compra)) {
             $itens = $this->itens->where('compra_id', $compra->id)->get();
 

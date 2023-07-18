@@ -22,6 +22,6 @@ class Product extends Model
 
     public function item()
     {
-        return $this->belongsTo(itensCompra::class);
+        return $this->belongsToMany(itensCompra::class);
     }
 }
