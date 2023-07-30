@@ -35,7 +35,10 @@ class CompraRepository
             'product_id' => $product,
             'compra_id' => $compra->id
         ]);
-        return $result;
+        if ($result) {
+
+            return $result;
+        }
     }
 
     public function findProduct($product_id)

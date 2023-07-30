@@ -17,7 +17,7 @@
                         @foreach ($product->imgs as $img)
                         <div class="card" style="max-width: 100px;height:100%">
                             <div class="">
-                                <img style="max-width:100px;" src="{{url("storage/{$img->url}")}}" alt="{{$product->nome}}">
+                                <img style="max-width:100px;" src="{{asset($img->url)}}" alt="{{$product->nome}}">
                             </div>
                             @can('user_com')
                             <div class="card-footer">

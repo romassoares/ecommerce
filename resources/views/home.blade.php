@@ -64,7 +64,7 @@
                             <div class="card">
                                 <div class="card-header">
                                     <div class="imgThumbmail">
-                                        <img style="width:100%;" src="{{isset($product->imgs[0]->url)}}" alt="{{$product->nome}}" class="img-thumbnail">
+                                        <img style="width:100%;" src="{{asset($product->imgs[0]->url)}}" alt="{{$product->nome}}" class="img-thumbnail">
                                     </div>
                                 </div>
                                 <div class="card-body">

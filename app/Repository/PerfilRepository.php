@@ -41,7 +41,6 @@ class PerfilRepository
 
     public function updateCreditVendedorEComprador($user, $valorItens)
     {
-        // dd($valorItens);
         $user_vendedor = DB::table('ven_perfils as vp')
             ->select('vp.*')
             ->join('products as p', 'vp.user_id', 'p.user_id')
@@ -56,7 +55,6 @@ class PerfilRepository
         ]);
 
         $comprador = Comprador::where('user_id', Auth::id())->update(['credit' => DB::raw("com_perfils.credit - $valorItens")]);
-        // dd($comprador);
 
         if ($comprador && $vendedor)
             return;
