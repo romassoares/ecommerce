@@ -28,7 +28,12 @@ class ProductController extends Controller
     public function index()
     {
         $categorias = DB::table('products')->select('categoria')->distinct()->get();
-        $products = $this->product->where('user_id', Auth::id())->paginate(10);
+        if (Auth::user()->type === 'adm') {
+            $products = $this->product->paginate(10);
+        } else {
+            $products = $this->product->where('user_id', Auth::user()->id)->paginate(10);
+        }
+
         return view('product.index', ['products' => $products, 'categorias' => $categorias]);
     }
 

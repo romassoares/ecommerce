@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Compra;
-use App\Models\Comprador;
 use App\Models\Product;
-use App\Models\Vendedor;
 use App\Repository\CompraRepository;
+use App\Repository\PerfilRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,21 +13,35 @@ use Illuminate\Support\Facades\DB;
 class CompraController extends Controller
 {
     private $compraRepository;
+    private $perfilRepository;
 
-    public function __construct(CompraRepository $compraRepository)
+    public function __construct(CompraRepository $compraRepository, PerfilRepository $perfilRepository)
     {
         $this->compraRepository = $compraRepository;
+        $this->perfilRepository = $perfilRepository;
     }
 
     public function index()
     {
         $categorias = DB::table('products')->select('categoria')->distinct()->get();
 
-        if (Auth::user()->type === 'ven' || Auth::user()->type === 'adm') {
+        if (Auth::user()->type === 'adm') {
+
             $compras = Compra::paginate(10);
+        } elseif (Auth::user()->type === 'ven') {
+
+            $compras = DB::table('compras as c')
+                ->select('u.name', 'p.preco', 'c.status', 'c.id')
+                ->join('itens_compra as i', 'c.id', 'i.compra_id')
+                ->join('products as p', 'i.product_id', 'p.id')
+                ->join('users as u', 'c.user_id', 'u.id')
+                ->where('p.user_id', Auth::user()->id)
+                ->paginate(10);
         } else {
+
             $compras = Compra::where('user_id', Auth::id())->paginate(10);
         }
+
         return view('compra.index', ['compras' => $compras, 'categorias' => $categorias]);
     }
 
@@ -58,8 +71,8 @@ class CompraController extends Controller
         $if_compra_aberta = $this->compraRepository->if_compra_aberta();
 
         if (isset($if_compra_aberta)) {
-
             $this->compraRepository->addItem($product_id, $if_compra_aberta);
+
             return redirect()->back();
         } else {
             $response = $this->compraRepository->createCompra();
@@ -72,24 +85,22 @@ class CompraController extends Controller
     public function carrinho()
     {
         $itens = $this->compraRepository->itens();
+
         return view('compra.carrinho', ['itens' => $itens]);
     }
 
     public function finalizar($user_id)
     {
-        $valorItens = $this->compraRepository->valorItensCarrinho();
-        $vendedor = Vendedor::insert([
-            'user_id' => $user_id,
-            'credit' => $valorItens
-        ]);
-        $comprador = Comprador::where('user_id', Auth::id())->first();
+        $if_credit = $this->perfilRepository->if_exist_credit($user_id);
+        if ($if_credit) {
+            $valorItens = $this->compraRepository->valorItensCarrinho($user_id);
 
-        $comprador->credit -= $valorItens;
+            $this->perfilRepository->updateCreditVendedorEComprador($user_id, $valorItens);
 
-        $comprador->save();
-
-        $compra = $this->compraRepository->finalizarCompra($valorItens, $user_id);
-
-        return redirect()->back();
+            $this->compraRepository->finalizarCompra($valorItens, $user_id);
+            return redirect()->back();
+        } else {
+            return redirect()->back()->with('warning', 'Crédito insuficiente');
+        }
     }
 }

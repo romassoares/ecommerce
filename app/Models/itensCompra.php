@@ -13,11 +13,11 @@ class itensCompra extends Model
 
     public function product()
     {
-        return $this->hasMany(Product::class, 'product_id');
+        return $this->belongsTo(Product::class);
     }
 
     public function compra()
     {
-        return $this->hasMany(Compra::class);
+        return $this->belongsTo(Compra::class);
     }
 }

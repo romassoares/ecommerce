@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Models\Compra;
 use App\Models\itensCompra;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CompraRepository
 {
@@ -39,53 +40,46 @@ class CompraRepository
 
     public function findProduct($product_id)
     {
-        $result = $this->itens
-            ->where('product_id', $product_id)->first();
-        return $result;
+        return $this->itens->where('product_id', $product_id)->first();
     }
 
     public function if_compra_aberta()
     {
-        $result = $this->compra
+        return $this->compra
             ->where('user_id', Auth::id())
             ->where('status', 'aberta')
             ->first();
-
-        return $result;
     }
 
     public function itens()
     {
-        dd('sdf');
-        $compra = $this->compra
-            ->where('user_id', Auth::id())
-            ->where('status', 'aberta')->first();
-        dd($compra);
-        if (isset($compra)) {
-            $itens = $this->itens->where('compra_id', $compra->id)->get();
+        $compra = Compra::where('user_id', Auth::user()->id)
+            ->where('status', 'aberta')
+            ->first();
 
-            return $itens;
-        } else {
-            return $itens = [];
-        }
+        return $compra ? $compra->products : [];
     }
 
-    public function valorItensCarrinho()
+    public function valorItensCarrinho($user_id)
     {
-        $result = $this->itens
+        $result = DB::table('itens_compra')
             ->join('products', 'itens_compra.product_id', 'products.id')
+            ->join('compras', 'itens_compra.compra_id', 'compras.id')
             ->selectRaw('SUM(products.preco) as total')
-            ->get();
-
-        return $result->first()->total;
+            ->where('compras.user_id', $user_id)
+            ->where('compras.status', '=', 'aberta')
+            ->first();
+        return $result->total;
     }
 
     public function finalizarCompra($valor, $user_id)
     {
         $compra = $this->if_compra_aberta();
+
         $compra->status = 'finalizada';
         $compra->preco = $valor;
         $compra->save();
+
         return $compra;
     }
 }

@@ -6,7 +6,7 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-header bg-dark">
-            <h2>{{isset($product) ? 'Editar' : 'Criar'}} produto</h2>
+            <h2>{{isset($product) ? 'update' : 'create'}} product</h2>
         </div>
         <div class="card-body">
             @if(isset($product))

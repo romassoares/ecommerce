@@ -8,13 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Compra extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'preco', 'compra_id'];
+    protected $fillable = ['user_id', 'preco', 'status'];
 
     public function getPreco()
     {
         return 'R$' . number_format($this->preco, 2, ',', '.');
     }
-
 
     public function user()
     {
@@ -24,5 +23,10 @@ class Compra extends Model
     public function itens()
     {
         return $this->belongsToMany(itensCompra::class);
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'itens_compra', 'compra_id', 'product_id');
     }
 }

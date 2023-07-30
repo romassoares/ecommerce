@@ -62,12 +62,14 @@ Route::middleware('auth')->group(function () {
             Route::get('search', 'search')->name('search')->can('user_ven_and_adm');
             Route::get('create', 'create')->name('create')->can('user_ven_and_adm');
             Route::post('store', 'store')->name('store')->can('user_ven_and_adm');
-            Route::get('edit/{product_id}', 'edit')->name('edit')->can('user_ven_and_adm');
-            Route::put('update/{product_id}', 'update')->name('update')->can('user_ven_and_adm');
-            Route::get('show/{product_id}', 'show')->name('show')->can('user_ven_and_adm');
-            Route::post('{product_id}/img', 'img')->name('img')->can('user_ven_and_adm');
-            Route::put('{product_id}/img/edit/{img_id}', 'imgEdit')->name('imgEdit')->can('user_ven_and_adm');
-            Route::get('{product_id}/img/remove/{img_id}', 'imgRemove')->name('imgRemove')->can('user_ven_and_adm');
+            Route::prefix('/{product_id}')->group(function () {
+                Route::get('edit', 'edit')->name('edit')->can('user_ven_and_adm');
+                Route::put('update/', 'update')->name('update')->can('user_ven_and_adm');
+                Route::get('show/', 'show')->name('show')->can('user_ven_and_adm');
+                Route::post('/img', 'img')->name('img')->can('user_ven_and_adm');
+                Route::put('/img/{img_id}/edit', 'imgEdit')->name('imgEdit')->can('user_ven_and_adm');
+                Route::get('/img/{img_id}/remove', 'imgRemove')->name('imgRemove')->can('user_ven_and_adm');
+            });
         });
 
     Route::prefix('/compra')

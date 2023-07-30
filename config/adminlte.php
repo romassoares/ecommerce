@@ -291,31 +291,31 @@ return [
 
     'menu' => [
         [
-            'text' => 'Vendedores',
+            'text' => 'sellers',
             'url' => 'vendedor/index',
             // 'icon' => 'far fa-fw fa-user'
             'can' => 'user_adm_menu'
         ],
         [
-            'text' => 'Compradores',
+            'text' => 'buyer',
             'url' => 'comprador/index',
             // 'icon' => 'far fa-fw fa-users'
             'can' => 'user_adm_menu'
         ],
         [
-            'text' => 'Produtos',
+            'text' => 'Products',
             'url' => 'produtos/index',
             // 'icon' => 'far fa-fw fa-users'
             'can' => 'user_ven_and_adm'
         ],
         [
-            'text' => 'Compras',
+            'text' => 'Shopping',
             'url' => 'compra/index',
             // 'icon' => 'far fa-fw fa-users'
             'can' => 'user_all'
         ],
         [
-            'text' => 'Meu Carrinho',
+            'text' => 'my cart',
             'url' => 'compra/carrinho',
             'can' => 'user_com_menu'
         ]
