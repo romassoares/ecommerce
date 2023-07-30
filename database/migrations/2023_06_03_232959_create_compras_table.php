@@ -16,7 +16,7 @@ class CreateComprasTable extends Migration
         Schema::create('compras', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->float('preco', 10, 2)->nullable();
+            $table->decimal('preco', 10, 2)->nullable();
             $table->enum('status', ['aberta', 'finalizada']);
             $table->timestamps();
         });

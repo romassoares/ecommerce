@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->foreignId('user_id');
             $table->string('nome');
             $table->text('descricao');
-            $table->float('preco', 10, 2);
+            $table->decimal('preco', 10, 2);
             $table->string('categoria');
             $table->timestamps();
         });

@@ -79,7 +79,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/index', 'index')->name('index')->can('user_all');
             Route::get('/addItem/{product_id}', 'addItem')->name('addItem')->can('user_com_menu');
             Route::get('/carrinho', 'carrinho')->name('carrinho')->can('user_com_menu');
-            Route::get('/finalizar/{user_id}', 'finalizar')->name('finalizar')->can('user_com_menu');
+            Route::get('/{user_id}/finalizar', 'finalizar')->name('finalizar')->can('user_com_menu');
             Route::get('search', 'search')->name('search');
         });
 });

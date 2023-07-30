@@ -95,9 +95,9 @@ class CompraController extends Controller
         if ($if_credit) {
             $valorItens = $this->compraRepository->valorItensCarrinho($user_id);
 
-            $this->perfilRepository->updateCreditVendedorEComprador($user_id, $valorItens);
+            $this->perfilRepository->updateCreditVendedorEComprador($user_id, floatval($valorItens));
 
-            $this->compraRepository->finalizarCompra($valorItens, $user_id);
+            $this->compraRepository->finalizarCompra(floatval($valorItens), $user_id);
             return redirect()->back();
         } else {
             return redirect()->back()->with('warning', 'Crédito insuficiente');

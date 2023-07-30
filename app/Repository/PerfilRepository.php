@@ -41,14 +41,24 @@ class PerfilRepository
 
     public function updateCreditVendedorEComprador($user, $valorItens)
     {
-        $id_user_vendedor = Compra::where('user_id', $user)->first();
-        $vendedor = Vendedor::find($id_user_vendedor)->first();
-        $vendedor->credit += $valorItens;
+        // dd($valorItens);
+        $user_vendedor = DB::table('ven_perfils as vp')
+            ->select('vp.*')
+            ->join('products as p', 'vp.user_id', 'p.user_id')
+            ->join('itens_compra as ic', 'p.id', 'ic.product_id')
+            ->join('compras as c', 'ic.user_id', 'c.user_id')
+            ->where('c.user_id', $user)
+            ->where('c.status', 'aberta')
+            ->where('vp.status', 'apr')
+            ->first();
+        $vendedor = Vendedor::where('id', $user_vendedor->id)->update([
+            'credit' => $user_vendedor->credit + $valorItens
+        ]);
 
-        $comprador = Comprador::where('user_id', Auth::id())->first();
-        $comprador->credit -= $valorItens;
+        $comprador = Comprador::where('user_id', Auth::id())->update(['credit' => DB::raw("com_perfils.credit - $valorItens")]);
+        // dd($comprador);
 
-        if ($comprador->save() && $vendedor->update())
+        if ($comprador && $vendedor)
             return;
     }
 }
