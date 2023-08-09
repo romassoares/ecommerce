@@ -57,33 +57,29 @@
                         <a href="{{route('home')}}">clear filters</a>
                     </div>
                 </div>
-                <div class="col-md-9">
-                    <div class="flex-row">
+                <div class="col-md-9 d-flex flex-wrap">
+                    <table class="table">
                         @foreach ($products as $key => $product)
-                        <a class="text-dark" href="{{route('product.show',['product_id'=>$product->id])}}">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="imgThumbmail">
-                                        <img style="width:100%;" src="{{asset($product->imgs[0]->url)}}" alt="{{$product->nome}}" class="img-thumbnail">
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    @can('if_user_admin',$user)
-                                    <p><strong>Vendedor: </strong>{{$user->name}}</p>
-                                    @endcan
-                                    <p>{{$product->nome}}</p>
-                                    <p>{{$product->descricao}}</p>
-                                    <p>{{$product->getPreco()}}</p>
-                                </div>
-                                <div class="card-footer">
-                                    @can('user_com',$user)
-                                    <a href="{{route('compra.addItem',['product_id'=>$product->id])}}"><i class="fas fa-plus"></i></a>
-                                    @endcan
-                                </div>
-                            </div>
-                        </a>
+                        <tr>
+                            <td>
+                                <img style="background-size: contain; background-repeat: no-repeat; max-width:200px; max-height:200px" src="{{asset($product->imgs[0]->url)}}" alt="{{$product->nome}}" class="">
+                            </td>
+                            <td>
+                                @can('if_user_admin',$user)
+                                <p><strong>Vendedor: </strong>{{$user->name}}</p>
+                                @endcan
+                                <p>{{$product->nome}}</p>
+                                <p>{{$product->descricao}}</p>
+                                <p>{{$product->getPreco()}}</p>
+                            </td>
+                            <td>
+                                @can('user_com',$user)
+                                <a href="{{route('compra.addItem',['product_id'=>$product->id])}}"><i class="fas fa-plus"></i></a>
+                                @endcan
+                            </td>
+                        </tr>
                         @endforeach
-                    </div>
+                    </table>
                 </div>
             </div>
             @endcan
