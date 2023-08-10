@@ -62,11 +62,13 @@
                         @foreach ($products as $key => $product)
                         <tr>
                             <td>
+                                <!-- <a href="{{route('product.show',['product_id'=>$product->id])}}"> -->
                                 <img style="background-size: contain; background-repeat: no-repeat; max-width:200px; max-height:200px" src="{{asset($product->imgs[0]->url)}}" alt="{{$product->nome}}" class="">
+                                <!-- </a> -->
                             </td>
                             <td>
                                 @can('if_user_admin',$user)
-                                <p><strong>Vendedor: </strong>{{$user->name}}</p>
+                                <p><strong>Vendedor: </strong>{{$product->user->name}}</p>
                                 @endcan
                                 <p>{{$product->nome}}</p>
                                 <p>{{$product->descricao}}</p>

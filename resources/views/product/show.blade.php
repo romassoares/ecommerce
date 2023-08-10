@@ -51,6 +51,7 @@
                     </div>
                 </div>
             </div>
+            <a href="{{route('product.index')}}">Voltar</a>
         </div>
     </div>
 </div>

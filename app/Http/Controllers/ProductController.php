@@ -20,11 +20,7 @@ class ProductController extends Controller
         $this->productRepository = $productRepository;
         $this->product = $product;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $categorias = DB::table('products')->select('categoria')->distinct()->get();
@@ -40,7 +36,6 @@ class ProductController extends Controller
     public function search(Request $request)
     {
         $query = $this->product->query();
-
         if (isset($request->name)) {
             $query->where('nome', 'LIKE', '%' . $request->name . '%');
         }
@@ -53,27 +48,16 @@ class ProductController extends Controller
             $query->orderBy('preco', $request->preco == 'men' ? 'asc' : 'desc');
         }
 
-        $products = $query->where('user_id', Auth::id())->paginate(10);
+        $products = $query->paginate(10);
         $categorias = DB::table('products')->select('categoria')->distinct()->get();
         return view("product.index", ['products' => $products, 'categorias' => $categorias]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('product.form');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(ProductRequest $request)
     {
         $save = $this->productRepository->saveProduct($request->validated());
@@ -81,12 +65,6 @@ class ProductController extends Controller
         return redirect()->route('product.show', ['product_id' => $save->id]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
     public function show($product_id)
     {
         $product = $this->productRepository->findProductShow($product_id);
@@ -129,13 +107,6 @@ class ProductController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
     public function update(ProductRequest $request, $product_id)
     {
         $product = $this->productRepository->findProductShow($product_id);
@@ -150,12 +121,6 @@ class ProductController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Product $product)
     {
         //

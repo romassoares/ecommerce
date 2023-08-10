@@ -5,8 +5,6 @@ namespace App\Repository;
 use App\Models\ImgProduct;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 class ProductRepository
 {
@@ -21,11 +19,7 @@ class ProductRepository
         $data['user_id'] = Auth::id();
 
         $result = $this->product->create($data);
-        if ($result) {
-            return $result;
-        } else {
-            return false;
-        }
+        return $result ? $result : false;
     }
 
     public function findProductShow($data)

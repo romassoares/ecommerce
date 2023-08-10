@@ -29,4 +29,9 @@ class Product extends Model
     {
         return $this->belongsToMany(Compra::class, 'itens_compra', 'product_id', 'compra_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
