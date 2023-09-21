@@ -8,20 +8,57 @@
     <title>Ecommerce</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: fantasy;
+        }
 
+        .container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-bar {
+            display: flex;
+            flex: 1;
+            padding: 15px;
+            border: 1px solid;
+            border-color: blue;
+            justify-content: space-around;
+        }
+
+        .itens-nav {
+            list-style: none;
+        }
+
+        .item-nav {
+            margin: 0px 10px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .group-auth {
+            justify-content: space-between;
+        }
+    </style>
 </head>
 
-<body class="antialiased">
-    <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
+<body class="container">
+    <div class="nav-bar">
+        <ul class="itens-nav">
+            <li class="item-nav">Romas Dev. FullStack</li>
+        </ul>
         @if (Route::has('login'))
-        <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+        <div class="group-auth">
             @auth
-            <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
+            <a href="{{ url('/home') }}" class="item-nav">Home</a>
             @else
-            <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
+            <a href="{{ route('login') }}" class="item-nav">Log in</a>
 
             @if (Route::has('register'))
-            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
+            <a href="{{ route('register') }}" class="ml-4 item-nav">Register</a>
             @endif
             @endauth
         </div>
