@@ -121,6 +121,11 @@
         $(document).ready(function() {
             $("#cpf").mask("999.999.999-99");
         });
+
+        window.addEventListener('load', function() {
+            // console.log(window.location.pathname)
+            document.querySelector('#diretory').innerText = window.location.pathname
+        })
     </script>
 </body>
 

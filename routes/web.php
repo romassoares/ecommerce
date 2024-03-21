@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CompraController;
 use App\Http\Controllers\CompradorController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfilesControlle;
+use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendedorController;
 use Illuminate\Support\Facades\Auth;
@@ -81,5 +84,42 @@ Route::middleware('auth')->group(function () {
             Route::get('/carrinho', 'carrinho')->name('carrinho')->can('user_com_menu');
             Route::get('/{user_id}/finalizar', 'finalizar')->name('finalizar')->can('user_com_menu');
             Route::get('search', 'search')->name('search');
+        });
+
+    // ***************************************************************************************
+    // ***************************************************************************************
+    // ***************************************************************************************
+    Route::prefix('/service')
+        ->controller(ServiceController::class)
+        ->name('service.')
+        ->group(function () {
+            Route::get('/index', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+        });
+
+
+    Route::prefix('/client')
+        ->controller(ClientController::class)
+        ->name('client.')
+        ->group(function () {
+            Route::get('/index', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+        });
+
+
+    Route::prefix('/schedule')
+        ->controller(ScheduleController::class)
+        ->name('schedule.')
+        ->group(function () {
+            Route::get('/index', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::prefix('/{schedule_id}')->group(function () {
+                Route::get('/add_service', 'add_service')->name('add_service');
+                Route::post('/add_service_store', 'addServiceStore')->name('addServiceStore');
+                Route::get('/show', 'show')->name('show');
+            });
         });
 });
