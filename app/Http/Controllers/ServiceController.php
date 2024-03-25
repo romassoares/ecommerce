@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ServiceController extends Controller
 {
@@ -47,5 +48,21 @@ class ServiceController extends Controller
         } else {
             return redirect()->back()->with('msg', 'validation error');
         }
+    }
+
+    public function service_days_allowed($id)
+    {
+        $service = $this->service->find($id);
+        if (isset($service)) {
+            $schedules_by_day = DB::table('services as srv')
+                ->select('sch.date_schedule',  DB::raw('count(sch.service_id) as tot_srv'))
+                ->join('schedules as sch', 'sch.service_id', 'srv.id')
+                ->where('sch.service_id', $service->id)
+                ->groupBy('sch.date_schedule')
+                ->get();
+            // dd($schedules_by_day);
+            return ['dayWeek' => json_decode($service->service_day), 'scheduleDay' => $schedules_by_day];
+        }
+        return;
     }
 }

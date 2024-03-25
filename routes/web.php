@@ -96,6 +96,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/index', 'index')->name('index');
             Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');
+            Route::get('/service_days_allowed/{id}', 'service_days_allowed')->name('service_days_allowed');
         });
 
 

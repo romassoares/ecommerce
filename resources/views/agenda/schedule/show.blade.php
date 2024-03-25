@@ -22,7 +22,7 @@
                     <strong>Data:</strong> <span>{{$schedule->date_schedule}}</span>
                 </div>
                 <div>
-                    <strong>services:</strong>
+                    <strong>services:</strong><span>{{$schedule->service->description}}</span>
                 </div>
                 @endif
 

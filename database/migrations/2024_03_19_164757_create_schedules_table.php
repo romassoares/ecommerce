@@ -18,7 +18,6 @@ class CreateSchedulesTable extends Migration
             $table->foreignId('client_id')->constrained();
             $table->foreignId('service_id')->constrained();
             $table->date('date_schedule');
-            $table->time('time_schedule');
             $table->softDeletes();
             $table->timestamps();
         });
