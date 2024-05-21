@@ -26,4 +26,4 @@ fly.toml
 **/Thumbs.db
 public/hot
 
-public/teste*
+public/teste/*
