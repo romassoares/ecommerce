@@ -3,6 +3,7 @@
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CompraController;
 use App\Http\Controllers\CompradorController;
+use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfilesControlle;
 use App\Http\Controllers\ScheduleController;
@@ -32,7 +33,10 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('confirm-email', [UserController::class, 'confirm_email']);
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'chartset')->group(function () {
+
+    Route::get('/excel', [ExcelController::class, 'index'])->name('index.excel');
+
     Route::prefix('/profile')
         ->controller(ProfilesControlle::class)
         ->group(function () {
